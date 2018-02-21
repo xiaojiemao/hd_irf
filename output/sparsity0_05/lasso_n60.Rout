@@ -1,0 +1,455 @@
+
+R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> source("../fun_collection.R")
+> library(MTS)
+
+Attaching package: 'MTS'
+
+The following object is masked _by_ '.GlobalEnv':
+
+    VARMAirf
+
+> library(glmnet)
+Loading required package: Matrix
+Loading required package: foreach
+Loaded glmnet 2.0-13
+
+> library(assertthat)
+> library(purrr)
+
+Attaching package: 'purrr'
+
+The following objects are masked from 'package:foreach':
+
+    accumulate, when
+
+> library(expm)
+
+Attaching package: 'expm'
+
+The following object is masked from 'package:Matrix':
+
+    expm
+
+> library(testthat)
+
+Attaching package: 'testthat'
+
+The following object is masked from 'package:purrr':
+
+    is_null
+
+> 
+> 
+> 
+> nseq = 60
+> pseq = seq(5, 60, 5)
+> d1 = 1
+> lag = 10
+> rep_num = 30
+> estimator = estimate_lasso_ebye
+> res = main(nseq, pseq, d1, lag, estimator, alpha = 0.12, sparsity = 0.05, rep = rep_num, snr = 3, rho = 0.8, d = 1)
+p =  5 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  10 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  15 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  20 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  25 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  30 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  35 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  40 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  45 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  50 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  55 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+p =  60 
+n =  60 
+repetition 1 
+repetition 2 
+repetition 3 
+repetition 4 
+repetition 5 
+repetition 6 
+repetition 7 
+repetition 8 
+repetition 9 
+repetition 10 
+repetition 11 
+repetition 12 
+repetition 13 
+repetition 14 
+repetition 15 
+repetition 16 
+repetition 17 
+repetition 18 
+repetition 19 
+repetition 20 
+repetition 21 
+repetition 22 
+repetition 23 
+repetition 24 
+repetition 25 
+repetition 26 
+repetition 27 
+repetition 28 
+repetition 29 
+repetition 30 
+> saveRDS(res, "output/lasso_n60.rds")
+> 
+> proc.time()
+     user    system   elapsed 
+13447.258     3.765 13455.441 
