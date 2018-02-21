@@ -1,0 +1,96 @@
+---
+title: "Two Stage IRF Simulation"
+author: "Xiaojie Mao"
+date: "2/21/2018"
+output: html_document
+---
+```{r echo = F, message=F}
+source("../fun_collection.R")
+```
+
+
+## Simulation Specification
+True data generating process is VAR(1) where coefficient matrix is a sparse matrix with 5% of the entries in random positions are nonzero (value is 0.3). The error process in simulation is gaussian with toeplitz covariance matrix which is scaled so that the maximum eigenvalue of the coefficent matrix is 3 times as large as that of the covariance matric (signal-to-noise ratio = 3). The sample size are $40, 60, 80$ and the number of series $p = 5, 10, ..., 60$
+
+The first stage and second stage estimation are based on the same regression penalty: either both lasso or both ridge with tuning parameter chosen by 5-fold cross-validation (the temporal structure is ignored). The first stage regression includes only lag-one term (correct model specification) while the second stage regression includes 10 lag terms of the residuals (estimate the 1st to the 10th impulse response function $\Phi = [\Phi_1, \Phi_2, .., \Phi_{10}]$). Moreover, the regressions are all carried out equation-by-equation, i.e., we estimate the coefficient of the regression equation corrisponding to different response series separately and thus ignore the contemporaneous dependence structure.
+
+All results are based on 30 repetitions of the experiments. In the legend, 1s stands for one-stage estimation where we use the coefficient matrix estimator in the first stage regression to compute IRF; 2s stands for two-stage estimation where we further regress on the residuals in the second stage to compute IRF; lp stands for local projection.
+
+
+### Plot 1: mean and sd of the absolute error
+The absolute error of irf is $||\hat{\Phi} - \Phi||_F$ and here we draw the mean and sd of the absolute error across 30 repetitions. 
+```{r echo = F, warning = F, message = F}
+lasso_n40 = readRDS("../output/sparsity0_05/output/lasso_n40.rds")
+lasso_n60 = readRDS("../output/sparsity0_05/output/lasso_n60.rds")
+lasso_n80 = readRDS("../output/sparsity0_05/output/lasso_n80.rds")
+
+ridge_n40 = readRDS("../output/sparsity0_05/output/ridge_n40.rds")
+ridge_n60 = readRDS("../output/sparsity0_05/output/ridge_n60.rds")
+ridge_n80 = readRDS("../output/sparsity0_05/output/ridge_n80.rds")
+
+pseq = seq(5, 60, 5)
+par(mfrow = c(3, 2))
+plot_mean_irf(lasso_n40, ridge_n40, 40, pseq)
+plot_sd_irf(lasso_n40, ridge_n40, 40, pseq)
+plot_mean_irf(lasso_n60, ridge_n60, 60, pseq)
+plot_sd_irf(lasso_n60, ridge_n60, 60, pseq)
+plot_mean_irf(lasso_n80, ridge_n80, 80, pseq)
+plot_sd_irf(lasso_n80, ridge_n80, 80, pseq)
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = T)
+plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+legend("bottom", c("1s-lasso", "1s-ridge", "2s-lasso", "2s-ridge", "lp-lasso", "lp-ridge"), 
+       col = c(1, 1, 2, 2, 3, 3), lty = c(1, 2, 1, 2, 1, 2), xpd = T, horiz = T, inset = c(0, 0),
+       bty = "n", cex = 0.5)
+par(op)
+
+```
+
+
+### Plot 2: mean and sd of the relative irf
+The relative error is $\frac{||\hat{\Phi} - \Phi||_F}{||\Phi||_F}$ and here we draw the mean and sd of the absolute error across 30 repetitions. 
+```{r echo = F, warning = F, message=F}
+pseq = seq(5, 60, 5)
+par(mfrow = c(3, 2))
+plot_rel_mean_irf(lasso_n40, ridge_n40, 40, pseq)
+plot_rel_sd_irf(lasso_n40, ridge_n40, 40, pseq)
+plot_rel_mean_irf(lasso_n60, ridge_n60, 60, pseq)
+plot_rel_sd_irf(lasso_n60, ridge_n60, 60, pseq)
+plot_rel_mean_irf(lasso_n80, ridge_n80, 80, pseq)
+plot_rel_sd_irf(lasso_n80, ridge_n80, 80, pseq)
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = T)
+plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+legend("bottom", c("1s-lasso", "1s-ridge", "2s-lasso", "2s-ridge", "lp-lasso", "lp-ridge"), 
+       col = c(1, 1, 2, 2, 3, 3), lty = c(1, 2, 1, 2, 1, 2), xpd = T, horiz = T, inset = c(0, 0),
+       bty = "n", cex = 0.5)
+par(op)
+
+```
+
+
+### Plot 3: average relative error of coefficient matrix estimator and innovations estimator in the first stage
+```{r echo= F, message =F, warning = F}
+pseq = seq(5, 60, 5)
+par(mfrow = c(1, 3))
+plot_A_res(lasso_n40, ridge_n40, 40, pseq)
+plot_A_res(lasso_n60, ridge_n60, 60, pseq)
+plot_A_res(lasso_n80, ridge_n80, 80, pseq)
+par(fig = c(0, 1, 0, 1), oma = c(0, 0, 0, 0), mar = c(0, 0, 0, 0), new = T)
+plot(0, 0, type = "n", bty = "n", xaxt = "n", yaxt = "n")
+legend("bottom", c("A-lasso", "A-ridge", "res-lasso", "res-ridge"), 
+       col = c(1, 1, 2, 2), lty = c(1, 2, 1, 2), xpd = T, horiz = T, inset = c(0, 0),
+       bty = "n", cex = 0.5)
+par(op)
+```
+
+## Observations
+- Ridge regression always outperforms the lasso regression
+- Two-stage IRF estimator always outperforms the one-stage IRF estimator (and performs way better than local projection) both in terms of mean and sd of the error; this might be due to the fact that the relative error of estimating the innovations is much smaller than the relative error of estimating the coefficient matrix
+- When the sample size is comparable to the dimension, all estimators are not very accurate in view of the fact that the mean relative error is only as far to 1
+
+
+## More simulations
+- fix a few values of p and vary the value of n to draw the error curve w.r.t n so that we can have a better idea about the convergence rate as well as how large n is required for the two-stage IRF to be accurate enough
+- vary the signal to noise ratio and the sparsity ratio
+- probably mix and match the regression penalty: use different penalties for first stage and second stage regression (this involves modifying the intermediate() function a bit)
+- probably bias and variance of the estimator are better error measures 
+

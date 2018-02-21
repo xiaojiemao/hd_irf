@@ -610,3 +610,61 @@ compute_irf_total_error <- function(A, est_irf, lag, B = NULL){
 }
 
 
+##################
+## Plotting 
+##################
+plot_mean_irf <- function(lasso_result_n, ridge_result_n, n, pseq){
+  # this function plot the mean absolute error of irf
+  plot(pseq, rep(0, length(pseq)), ylim = c(0, 7), xlab = "number of series", ylab = "absolute error",
+       type = 'n', main = c("sample size = ", n))
+  lines(pseq, lasso_result_n$irf1_error$abs_mean, col = 1)
+  lines(pseq, lasso_result_n$irf2_error$abs_mean, col = 2)
+  lines(pseq, lasso_result_n$irf_lp_error$abs_mean, col = 3)
+  lines(pseq, ridge_result_n$irf1_error$abs_mean, col = 1, lty = 2)
+  lines(pseq, ridge_result_n$irf2_error$abs_mean, col = 2, lty = 2)
+  lines(pseq, ridge_result_n$irf_lp_error$abs_mean, col = 3, lty = 2)
+}
+plot_sd_irf <- function(lasso_result_n, ridge_result_n, n, pseq){
+  # this function plot the mean absolute error of irf
+  plot(pseq, rep(0, length(pseq)), ylim = c(0, 1), xlab = "number of series", ylab = "sd",
+       type = 'n', main = c("sample size = ", n))
+  lines(pseq, lasso_result_n$irf1_error$abs_sd, col = 1)
+  lines(pseq, lasso_result_n$irf2_error$abs_sd, col = 2)
+  lines(pseq, lasso_result_n$irf_lp_error$abs_sd, col = 3)
+  lines(pseq, ridge_result_n$irf1_error$abs_sd, col = 1, lty = 2)
+  lines(pseq, ridge_result_n$irf2_error$abs_sd, col = 2, lty = 2)
+  lines(pseq, ridge_result_n$irf_lp_error$abs_sd, col = 3, lty = 2)
+}
+plot_rel_mean_irf <- function(lasso_result_n, ridge_result_n, n, pseq){
+  # this function plot the mean absolute error of irf
+  plot(pseq, rep(0, length(pseq)), ylim = c(0, 7), xlab = "number of series", ylab = "relative error",
+       type = 'n', main = c("sample size = ", n))
+  lines(pseq, lasso_result_n$irf1_error$rel_mean, col = 1)
+  lines(pseq, lasso_result_n$irf2_error$rel_mean, col = 2)
+  lines(pseq, lasso_result_n$irf_lp_error$rel_mean, col = 3)
+  lines(pseq, ridge_result_n$irf1_error$rel_mean, col = 1, lty = 2)
+  lines(pseq, ridge_result_n$irf2_error$rel_mean, col = 2, lty = 2)
+  lines(pseq, ridge_result_n$irf_lp_error$rel_mean, col = 3, lty = 2)
+}
+plot_rel_sd_irf <- function(lasso_result_n, ridge_result_n, n, pseq){
+  # this function plot the mean absolute error of irf
+  plot(pseq, rep(0, length(pseq)), ylim = c(0, 1), xlab = "number of series", ylab = "sd",
+       type = 'n', main = c("sample size = ", n))
+  lines(pseq, lasso_result_n$irf1_error$rel_sd, col = 1)
+  lines(pseq, lasso_result_n$irf2_error$rel_sd, col = 2)
+  lines(pseq, lasso_result_n$irf_lp_error$rel_sd, col = 3)
+  lines(pseq, ridge_result_n$irf1_error$rel_sd, col = 1, lty = 2)
+  lines(pseq, ridge_result_n$irf2_error$rel_sd, col = 2, lty = 2)
+  lines(pseq, ridge_result_n$irf_lp_error$rel_sd, col = 3, lty = 2)
+}
+plot_A_res <- function(lasso_result_n, ridge_result_n, n, pseq){
+  plot(pseq, rep(0, length(pseq)), ylim = c(0, 5), xlab = "number of series", ylab = "relative error",
+       type = 'n', main = c("sample size = ", n))
+  lines(pseq, lasso_result_n$A_error, col = 1)
+  lines(pseq, lasso_result_n$res_error, col = 2)
+  lines(pseq, ridge_result_n$A_error, col = 1, lty = 2)
+  lines(pseq, ridge_result_n$res_error, col = 2, lty = 2)
+}
+
+op = par()
+
